@@ -1,4 +1,4 @@
-const SHEET_ID = "PASTE_YOUR_SHEET_ID_HERE";
+const SHEET_ID = "10FyRal7ybfEGR_DgXV5Y3WHlGaiLAcltFnyEFbeL_kA";
 
 async function fetchSheet(sheetName) {
   const url = `https://opensheet.elk.sh/${SHEET_ID}/${sheetName}`;
