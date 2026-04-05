@@ -133,22 +133,25 @@ if (page === "home") {
     }
 
     // 🚆 TRANSPORT
-    if (page === "transport") {
-      const data = await fetchSheet("Transport");
+if (page === "transport") {
+  const data = await fetchSheet("Transport");
 
-      let html = "<h2>Transport</h2>";
+  let html = "<h2>Transport</h2>";
 
-      data.forEach(t => {
-        html += `
-        <div class="card">
-          🚆 ${t.Type}<br>
-          ${t.From} → ${t.To}<br>
-          📅 ${t.Date || ""} ${t.Time || ""}
-        </div>`;
-      });
+  data.forEach(t => {
+    html += `
+    <div class="card">
+      🚆 <strong>${t.Type}</strong><br>
+      ${t.From} → ${t.To}<br>
+      <div class="meta">📅 ${t.Date || ""} ${t.Time || ""}</div>
 
-      container.innerHTML = html;
-    }
+      ${t.Booking ? `<div class="meta">Booking: ${t.Booking}</div>` : ""}
+      ${t.Notes ? `<div class="meta">${t.Notes}</div>` : ""}
+    </div>`;
+  });
+
+  container.innerHTML = html;
+}
 
     // 🍽️ RESTAURANTS
     if (page === "restaurants") {
