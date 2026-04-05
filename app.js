@@ -119,7 +119,7 @@ if (page === "home") {
       data.forEach(h => {
         html += `
         <div class="card">
-          🏨 <strong>${h.City}</strong><br>
+       🛏️ <strong>${h.City}</strong>
           ${h.Hotel}<br>
           ${h.CheckIn} → ${h.CheckOut}<br>
           ${h.Map ? `<a class="button" href="${h.Map}" target="_blank">View Map</a>` : ""}
@@ -156,7 +156,7 @@ if (page === "home") {
       data.forEach(r => {
         html += `
         <div class="card">
-          🍝 <strong>${r.Name}</strong><br>
+      🍽️ <strong>${r.Name}</strong>
           ${r.City}<br>
           ${r.Cuisine || ""}<br>
           ${r.Map ? `<a class="button" href="${r.Map}" target="_blank">View Map</a>` : ""}
