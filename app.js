@@ -17,63 +17,76 @@ async function showPage(page) {
   try {
 
     // 🏠 HOME (PREMIUM UI)
-    if (page === "home") {
-      const data = await fetchSheet("Itinerary");
+  if (page === "home") {
+  const data = await fetchSheet("Itinerary");
 
-      const today = new Date().toISOString().slice(0, 10);
+  const today = new Date().toISOString().slice(0, 10);
 
-      const upcoming = data
-        .filter(i => i.Date >= today)
-        .sort((a, b) => a.Date.localeCompare(b.Date))[0];
+  // find next upcoming date
+  const nextDate = data
+    .filter(i => i.Date >= today)
+    .sort((a, b) => a.Date.localeCompare(b.Date))[0]?.Date;
 
-      let html = "<h2>Next Plan</h2>";
+  let html = "<h2>Next Plan</h2>";
 
-      if (upcoming) {
-        const sameDay = data.filter(i => i.Date === upcoming.Date);
+  if (nextDate) {
+    const sameDay = data
+      .filter(i => i.Date === nextDate)
+      .sort((a, b) => (a.Time || "").localeCompare(b.Time || ""));
 
-        sameDay.forEach(i => {
-          html += `
-          <div class="card">
-            <strong>${i.Activity}</strong>
-            <div class="meta">${i.City} • ${i.Time || ""}</div>
-            ${i.Map ? `<a class="button" href="${i.Map}" target="_blank">View on Map</a>` : ""}
-          </div>`;
-        });
-      } else {
-        html += "<div class='card'>No upcoming plans</div>";
-      }
+    html += `<h3>${sameDay[0].City} • ${nextDate}</h3>`;
 
-      container.innerHTML = html;
-    }
+    sameDay.forEach(i => {
+      html += `
+      <div class="card">
+        <strong>${i.Activity}</strong>
+        <div class="meta">${i.Time || ""}</div>
+        ${i.Map ? `<a class="button" href="${i.Map}" target="_blank">View on Map</a>` : ""}
+      </div>`;
+    });
 
+  } else {
+    html += "<div class='card'>Trip completed 🎉</div>";
+  }
+
+  container.innerHTML = html;
+}
     // 📅 ITINERARY (PREMIUM UI)
-    if (page === "itinerary") {
-      const data = await fetchSheet("Itinerary");
+   if (page === "itinerary") {
+  const data = await fetchSheet("Itinerary");
 
-      const grouped = {};
-      data.forEach(item => {
-        if (!grouped[item.Day]) grouped[item.Day] = [];
-        grouped[item.Day].push(item);
+  const grouped = {};
+
+  data.forEach(item => {
+    if (!grouped[item.Day]) grouped[item.Day] = [];
+    grouped[item.Day].push(item);
+  });
+
+  let html = "<h2>Itinerary</h2>";
+
+  Object.keys(grouped)
+    .sort((a, b) => Number(a) - Number(b))
+    .forEach(day => {
+
+      html += `<h3>Day ${day}</h3>`;
+
+      const sorted = grouped[day].sort((a, b) =>
+        (a.Time || "").localeCompare(b.Time || "")
+      );
+
+      sorted.forEach(i => {
+        html += `
+        <div class="card">
+          <strong>${i.Activity}</strong>
+          <div class="meta">${i.City} • ${i.Time || ""}</div>
+          ${i.Map ? `<a class="button" href="${i.Map}" target="_blank">Open Map</a>` : ""}
+        </div>`;
       });
 
-      let html = "<h2>Itinerary</h2>";
+    });
 
-      Object.keys(grouped).forEach(day => {
-        html += `<h3>Day ${day}</h3>`;
-
-        grouped[day].forEach(i => {
-          html += `
-          <div class="card">
-            <strong>${i.Activity}</strong>
-            <div class="meta">${i.City} • ${i.Time || ""}</div>
-            ${i.Map ? `<a class="button" href="${i.Map}" target="_blank">Open Map</a>` : ""}
-          </div>`;
-        });
-      });
-
-      container.innerHTML = html;
-    }
-
+  container.innerHTML = html;
+}
     // ✈️ FLIGHTS
     if (page === "flights") {
       const data = await fetchSheet("Flights");
