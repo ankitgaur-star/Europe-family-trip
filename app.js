@@ -20,38 +20,40 @@ async function showPage(page) {
 if (page === "home") {
   const data = await fetchSheet("Itinerary");
 
-  const grouped = {};
+  const today = new Date().toISOString().slice(0, 10);
 
-  data.forEach(item => {
-    if (!grouped[item.Day]) grouped[item.Day] = [];
-    grouped[item.Day].push(item);
-  });
+  // Get all unique dates sorted
+  const dates = [...new Set(data.map(i => i.Date))]
+    .sort((a, b) => a.localeCompare(b));
 
-  let html = "<h2>Trip Plan</h2>";
+  // Find next date >= today
+  let targetDate = dates.find(d => d >= today);
 
-  Object.keys(grouped)
-    .sort((a, b) => Number(a) - Number(b))
-    .forEach(day => {
+  // If none found (trip over), fallback to last date
+  if (!targetDate) {
+    targetDate = dates[dates.length - 1];
+  }
 
-      html += `<h3>Day ${day}</h3>`;
+  // Filter that day's items
+  const dayItems = data
+    .filter(i => i.Date === targetDate)
+    .sort((a, b) => (a.Time || "").localeCompare(b.Time || ""));
 
-      const sorted = grouped[day].sort((a, b) =>
-        (a.Time || "").localeCompare(b.Time || "")
-      );
+  let html = "<h2>Next Plan</h2>";
 
-      sorted.forEach(i => {
-        html += `
+  if (dayItems.length) {
+    html += `<h3>${dayItems[0].City} • ${targetDate}</h3>`;
+
+    dayItems.forEach(i => {
+      html += `
       <div class="card">
-  <strong>${i.Activity}</strong>
-  <div class="meta">${i.City} • ${i.Time || ""}</div>
-
-  ${i.Notes ? `<div class="meta">${i.Notes}</div>` : ""}
-
-  ${i.Map ? `<a class="button" href="${i.Map}" target="_blank">Map</a>` : ""}
-</div>`;
-      });
-
+        <strong>${i.Activity}</strong>
+        <div class="meta">${i.Time || ""}</div>
+      </div>`;
     });
+  } else {
+    html += "<div class='card'>No plans found</div>";
+  }
 
   container.innerHTML = html;
 }
