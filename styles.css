@@ -76,3 +76,9 @@ h3 {
   font-size: 12px;
   color: #444;
 }
+.date {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0ea5e9;
+  margin-bottom: 6px;
+}
