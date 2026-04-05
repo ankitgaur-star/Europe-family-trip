@@ -146,7 +146,7 @@ if (page === "transport") {
       <div class="meta">📅 ${t.Date || ""} ${t.Time || ""}</div>
 
       ${t.Booking ? `<div class="meta">Booking: ${t.Booking}</div>` : ""}
-      ${t.Notes ? `<div class="meta">${t.Notes}</div>` : ""}
+      ${t.Notes ? `<div class="meta">Notes: ${t.Notes}</div>` : ""}
     </div>`;
   });
 
