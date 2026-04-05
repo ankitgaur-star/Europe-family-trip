@@ -41,11 +41,14 @@ if (page === "home") {
 
       sorted.forEach(i => {
         html += `
-        <div class="card">
-          <strong>${i.Activity}</strong>
-          <div class="meta">${i.City} • ${i.Time || ""}</div>
-          ${i.Map ? `<a class="button" href="${i.Map}" target="_blank">Map</a>` : ""}
-        </div>`;
+      <div class="card">
+  <strong>${i.Activity}</strong>
+  <div class="meta">${i.City} • ${i.Time || ""}</div>
+
+  ${i.Notes ? `<div class="meta">${i.Notes}</div>` : ""}
+
+  ${i.Map ? `<a class="button" href="${i.Map}" target="_blank">Map</a>` : ""}
+</div>`;
       });
 
     });
