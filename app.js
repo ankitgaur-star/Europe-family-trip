@@ -58,7 +58,7 @@ if (page === "home") {
   container.innerHTML = html;
 }
     // 📅 ITINERARY (PREMIUM UI)
-   if (page === "itinerary") {
+  if (page === "itinerary") {
   const data = await fetchSheet("Itinerary");
 
   const grouped = {};
@@ -83,9 +83,12 @@ if (page === "home") {
       sorted.forEach(i => {
         html += `
         <div class="card">
-          <strong>${i.Activity}</strong>
-          <div class="meta">${i.City} • ${i.Time || ""}</div>
-          ${i.Map ? `<a class="button" href="${i.Map}" target="_blank">Open Map</a>` : ""}
+          <strong>${i.Activity || ""}</strong>
+          <div class="meta">${i.City || ""} • ${i.Time || ""}</div>
+
+          ${i.Notes ? `<div class="meta">${i.Notes}</div>` : ""}
+
+          ${i.Map ? `<a class="button" href="${i.Map}" target="_blank">View Map</a>` : ""}
         </div>`;
       });
 
