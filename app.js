@@ -110,7 +110,7 @@ if (page === "home") {
       container.innerHTML = html;
     }
 
-    // 🏨 HOTELS
+    // 🛏️ HOTELS
     if (page === "hotels") {
       const data = await fetchSheet("Hotels");
 
@@ -147,7 +147,7 @@ if (page === "home") {
       container.innerHTML = html;
     }
 
-    // 🍝 RESTAURANTS
+    // 🍽️ RESTAURANTS
     if (page === "restaurants") {
       const data = await fetchSheet("Restaurants");
 
