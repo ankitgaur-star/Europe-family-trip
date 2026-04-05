@@ -17,37 +17,38 @@ async function showPage(page) {
   try {
 
     // 🏠 HOME (PREMIUM UI)
-  if (page === "home") {
+if (page === "home") {
   const data = await fetchSheet("Itinerary");
 
-  const today = new Date().toISOString().slice(0, 10);
+  const grouped = {};
 
-  // find next upcoming date
-  const nextDate = data
-    .filter(i => i.Date >= today)
-    .sort((a, b) => a.Date.localeCompare(b.Date))[0]?.Date;
+  data.forEach(item => {
+    if (!grouped[item.Day]) grouped[item.Day] = [];
+    grouped[item.Day].push(item);
+  });
 
-  let html = "<h2>Next Plan</h2>";
+  let html = "<h2>Trip Plan</h2>";
 
-  if (nextDate) {
-    const sameDay = data
-      .filter(i => i.Date === nextDate)
-      .sort((a, b) => (a.Time || "").localeCompare(b.Time || ""));
+  Object.keys(grouped)
+    .sort((a, b) => Number(a) - Number(b))
+    .forEach(day => {
 
-    html += `<h3>${sameDay[0].City} • ${nextDate}</h3>`;
+      html += `<h3>Day ${day}</h3>`;
 
-    sameDay.forEach(i => {
-      html += `
-      <div class="card">
-        <strong>${i.Activity}</strong>
-        <div class="meta">${i.Time || ""}</div>
-        ${i.Map ? `<a class="button" href="${i.Map}" target="_blank">View on Map</a>` : ""}
-      </div>`;
+      const sorted = grouped[day].sort((a, b) =>
+        (a.Time || "").localeCompare(b.Time || "")
+      );
+
+      sorted.forEach(i => {
+        html += `
+        <div class="card">
+          <strong>${i.Activity}</strong>
+          <div class="meta">${i.City} • ${i.Time || ""}</div>
+          ${i.Map ? `<a class="button" href="${i.Map}" target="_blank">Map</a>` : ""}
+        </div>`;
+      });
+
     });
-
-  } else {
-    html += "<div class='card'>Trip completed 🎉</div>";
-  }
 
   container.innerHTML = html;
 }
