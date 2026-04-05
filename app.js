@@ -141,12 +141,14 @@ if (page === "transport") {
   data.forEach(t => {
     html += `
     <div class="card">
+      
+      <div class="date">${t.Date || ""} ${t.Time || ""}</div>
+
       🚆 <strong>${t.Type}</strong><br>
       ${t.From} → ${t.To}<br>
-      <div class="meta">📅 ${t.Date || ""} ${t.Time || ""}</div>
 
       ${t.Booking ? `<div class="meta">Booking: ${t.Booking}</div>` : ""}
-      ${t.Notes ? `<div class="meta">Notes: ${t.Notes}</div>` : ""}
+      ${t.Notes ? `<div class="meta">${t.Notes}</div>` : ""}
     </div>`;
   });
 
