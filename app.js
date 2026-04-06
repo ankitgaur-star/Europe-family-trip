@@ -78,9 +78,14 @@ html += `<h3>${cities.join(" → ")} • ${targetDate}</h3>`;
 
       html += `<h3>Day ${day}</h3>`;
 
-      const sorted = grouped[day].sort((a, b) =>
-        (a.Time || "").localeCompare(b.Time || "")
-      );
+const sorted = grouped[day].sort((a, b) => {
+  const t1 = a.Time ? a.Time.split(":").map(Number) : [99, 99];
+  const t2 = b.Time ? b.Time.split(":").map(Number) : [99, 99];
+
+  return t1[0] !== t2[0]
+    ? t1[0] - t2[0]
+    : t1[1] - t2[1];
+});
 
       sorted.forEach(i => {
         html += `
