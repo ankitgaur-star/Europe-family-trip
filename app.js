@@ -160,7 +160,7 @@ if (page === "transport") {
       ${t.From} → ${t.To}<br>
 
       ${t.Booking ? `<div class="meta">Booking: ${t.Booking}</div>` : ""}
-      ${t.Notes ? `<div class="meta">${t.Notes}</div>` : ""}
+      ${t.Notes ? `<div class="meta">Notes: ${t.Notes}</div>` : ""}
     </div>`;
   });
 
