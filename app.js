@@ -42,7 +42,9 @@ if (page === "home") {
   let html = "<h2>Next Plan</h2>";
 
   if (dayItems.length) {
-    html += `<h3>${dayItems[0].City} • ${targetDate}</h3>`;
+  const cities = [...new Set(dayItems.map(i => i.City))];
+
+html += `<h3>${cities.join(" → ")} • ${targetDate}</h3>`;
 
     dayItems.forEach(i => {
       html += `
