@@ -168,24 +168,36 @@ if (page === "transport") {
 }
 
     // 🍽️ RESTAURANTS
-    if (page === "restaurants") {
-      const data = await fetchSheet("Restaurants");
+   // 🍽️ RESTAURANTS
+if (page === "restaurants") {
+  try {
+    const data = await fetchSheet("Restaurants");
 
-      let html = "<h2>Food</h2>";
+    if (!Array.isArray(data)) {
+      throw new Error("Restaurants data is not an array");
+    }
 
-      data.forEach(r => {
+    let html = "<h2>Restaurants</h2>";
+
+    data
+      .filter(r => r.Restaurant || r.City)
+      .forEach(r => {
         html += `
         <div class="card">
-      🍽️ <strong>${r.Name}</strong>
-          ${r.City}<br>
-          ${r.Cuisine || ""}<br>
-          ${r.Time || ""}<br>
+          🍽️ <strong>${r.City || ""}</strong><br>
+          ${r.Restaurant || ""}<br>
+          ${r.Date || ""} ${r.Time ? `• ${r.Time}` : ""}<br>
           ${r.Map ? `<a class="button" href="${r.Map}" target="_blank">View Map</a>` : ""}
         </div>`;
       });
 
-      container.innerHTML = html;
-    }
+    container.innerHTML = html;
+
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = `<p>Error loading restaurants</p>`;
+  }
+}
 
     // 🎒 PACKING
     if (page === "packing") {
