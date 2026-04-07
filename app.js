@@ -179,6 +179,7 @@ if (page === "transport") {
       🍽️ <strong>${r.Name}</strong>
           ${r.City}<br>
           ${r.Cuisine || ""}<br>
+          ${r.Time || ""}<br>
           ${r.Map ? `<a class="button" href="${r.Map}" target="_blank">View Map</a>` : ""}
         </div>`;
       });
