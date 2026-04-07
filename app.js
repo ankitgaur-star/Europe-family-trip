@@ -137,7 +137,7 @@ const sorted = grouped[day].sort((a, b) => {
        🛏️ <strong>${h.City}</strong>
           ${h.Hotel}<br>
           ${h.CheckIn} → ${h.CheckOut}<br>
-          ${t.Address ? `<div class="meta">Address: ${t.Address}</div>` : ""}
+     ${h.Map ? `<a class="button" href="${h.Map}" target="_blank">View Map</a>` : ""}
         </div>`;
       });
 
