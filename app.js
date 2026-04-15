@@ -211,7 +211,23 @@ if (page === "restaurants") {
 
       container.innerHTML = html;
     }
+if (page === "tickets") {
+  const data = await fetchSheet("Tickets");
 
+  let html = "<h2>Tickets</h2>";
+
+  data.forEach(t => {
+    html += `
+    <div class="card">
+      🎟 <strong>${t.Name}</strong><br>
+      ${t.City}<br>
+      📅 ${t.Date} ${t.Time || ""}<br>
+      ${t.Ticket ? `<a class="button" href="${t.Ticket}" target="_blank">Open Ticket</a>` : ""}
+    </div>`;
+  });
+
+  container.innerHTML = html;
+}
     // 💰 EXPENSES
     if (page === "expenses") {
       const data = await fetchSheet("Expenses");
